@@ -1,0 +1,17 @@
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.BusinessLogicLayer.deps.json
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.BusinessLogicLayer.dll
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.BusinessLogicLayer.pdb
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.Domain.dll
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.Infrastructure.dll
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.Domain.pdb
+D:\Work\WMS\WMS.BusinessLogicLayer\bin\Debug\net8.0\WMS.Infrastructure.pdb
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.csproj.AssemblyReference.cache
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.AssemblyInfoInputs.cache
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.AssemblyInfo.cs
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.csproj.CoreCompileInputs.cache
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.Busi.803F3867.Up2Date
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.dll
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\refint\WMS.BusinessLogicLayer.dll
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\WMS.BusinessLogicLayer.pdb
+D:\Work\WMS\WMS.BusinessLogicLayer\obj\Debug\net8.0\ref\WMS.BusinessLogicLayer.dll
