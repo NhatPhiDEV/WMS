@@ -36,4 +36,6 @@ public partial class InventoryTransaction
     public virtual Location Location { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
+
+
 }

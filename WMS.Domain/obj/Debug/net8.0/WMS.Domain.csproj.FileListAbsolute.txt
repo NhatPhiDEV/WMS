@@ -5,6 +5,7 @@ D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.GeneratedMSBuildEditorConfig.
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.AssemblyInfoInputs.cache
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.AssemblyInfo.cs
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.csproj.CoreCompileInputs.cache
+D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.sourcelink.json
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.dll
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\refint\WMS.Domain.dll
 D:\Work\WMS\WMS.Domain\obj\Debug\net8.0\WMS.Domain.pdb

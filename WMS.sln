@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Infrastructure", "WMS.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.UI", "WMS.UI\WMS.UI.csproj", "{2D994139-DE2B-4451-B95C-B72EA73CE383}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.BusinessLogic", "WMS.BusinessLogicLayer\WMS.BusinessLogic.csproj", "{ACC99C26-EF1D-48A6-8197-09AF7917FB39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Application", "WMS.BusinessLogicLayer\WMS.Application.csproj", "{ACC99C26-EF1D-48A6-8197-09AF7917FB39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

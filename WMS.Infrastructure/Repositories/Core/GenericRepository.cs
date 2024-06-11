@@ -4,47 +4,18 @@ using WMS.Infrastructure.EFContext;
 
 namespace WMS.Infrastructure.Repositories.Core;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
     private readonly AppDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    private readonly DbSet<TEntity> _dbSet;
 
     public GenericRepository(AppDbContext context)
     {
         _context = context;
-        _dbSet = _context.Set<T>();
+        _dbSet = _context.Set<TEntity>();
     }
 
-    public T? GetById<TKey>(TKey id)
-    {
-        return _dbSet.Find(id);
-    }
-
-    public IQueryable<TResult> FindBy<TResult>(
-        Expression<Func<T, TResult>> selector,
-        Expression<Func<T, bool>>? predicate,
-        params string[]? includes)
-    {
-        var query = _dbSet.AsNoTracking();
-
-        if (includes != null && includes.Length != 0)
-        {
-            // Có include các thành phần liên quan
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-
-        if (predicate != null)
-        {
-            return query.Where(predicate).Select(selector);
-        }
-
-        return query.Select(selector);
-    }
-
-    public IQueryable<T> FindBy(Expression<Func<T, bool>>? predicate, params string[]? includes)
+    public IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>>? predicate, params string[]? includes)
     {
         var query = _dbSet.AsNoTracking();
 
@@ -65,12 +36,93 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return query;
     }
 
-    public void Create(T entity)
+    public IQueryable<TEntity> GetQueryable()
+    {
+        return _dbSet.AsQueryable();
+    }
+
+
+    public async Task<List<TResult>> GetMultipleAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>>? predicate,
+        CancellationToken cancellationToken = default,
+        params string[]? includes)
+    {
+        var query = _dbSet.AsNoTracking();
+
+        if (includes != null && includes.Length != 0)
+        {
+            // Có include các thành phần liên quan
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        if (predicate != null)
+        {
+            return await query.Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        return await query.Select(selector)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<TResult?> GetSingle<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var queryable = _dbSet.AsNoTracking().Where(predicate).Select(selector);
+
+        //var queryString = queryable.ToQueryString();
+
+        return await queryable.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<TEntity?> GetSingle(
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var queryable = _dbSet.AsNoTracking().Where(predicate);
+        return await queryable.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+
+    }
+
+    public async Task<TResult?> GetSingle<TResult>
+    (
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default,
+        params string[] includes)
+    {
+        var query = _dbSet.AsNoTracking();
+
+        if (includes.Length != 0)
+        {
+            // Có include các thành phần liên quan
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.Where(predicate)
+            .Select(selector)
+            .FirstOrDefaultAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public void Create(TEntity entity)
     {
         _dbSet.Add(entity);
     }
 
-    public void Update(T entity)
+    public void Update(TEntity entity)
     {
         var entityEntry = _context.Entry(entity);
 
@@ -83,24 +135,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         entityEntry.State = EntityState.Modified;
     }
 
-    public void Delete(T entity)
+    public void Delete(TEntity entity)
     {
         _dbSet.Remove(entity);
     }
 
-    private void Detach(T entity)
+    private void Detach(TEntity entity)
     {
         var primaryKey = _dbSet.EntityType.FindPrimaryKey();
 
         if (primaryKey?.Properties.Count > 0)
         {
             var primaryKeyProperty = primaryKey.Properties[0];
-            var primaryKeyValue = entity.GetType().GetProperty(primaryKeyProperty.Name)?.GetValue(entity, null);
+            var primaryKeyVal = entity.GetType().GetProperty(primaryKeyProperty.Name)?.GetValue(entity, null);
 
-            // Kiểm tra null trước khi sử dụng
-            if (primaryKeyValue != null)
+            if (primaryKeyVal != null)
             {
-                var existingEntityInDb = _dbSet.Find(primaryKeyValue);
+                var existingEntityInDb = _dbSet.Find(primaryKeyVal);
                 if (existingEntityInDb != null)
                 {
                     _context.Entry(existingEntityInDb).State = EntityState.Detached;

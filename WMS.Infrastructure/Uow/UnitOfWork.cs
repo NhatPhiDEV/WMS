@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WMS.Infrastructure.EFContext;
+﻿using WMS.Infrastructure.EFContext;
 using WMS.Infrastructure.Repositories.Core;
 
 namespace WMS.Infrastructure.Uow
 {
     public class UnitOfWork(AppDbContext context) : IUnitOfWork
     {
-        private readonly AppDbContext _context = context;
         private readonly Dictionary<Type, object> _repositories = [];
-
-
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
@@ -17,7 +13,7 @@ namespace WMS.Infrastructure.Uow
 
             if (!_repositories.TryGetValue(type, out var repository))
             {
-                repository = new GenericRepository<TEntity>(_context);
+                repository = new GenericRepository<TEntity>(context);
                 _repositories[type] = repository;
             }
 
@@ -26,13 +22,13 @@ namespace WMS.Infrastructure.Uow
 
         public int Commit()
         {
-            return _context.SaveChanges();
+            return context.SaveChanges();
         }
 
-        public async Task<int> CommitAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.SaveChangesAsync();
-        }
+            return await context.SaveChangesAsync(cancellationToken);
+        } 
 
         private bool _disposed;
 
@@ -42,7 +38,7 @@ namespace WMS.Infrastructure.Uow
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    context.Dispose();
                 }
             }
 
@@ -57,5 +53,4 @@ namespace WMS.Infrastructure.Uow
         }
 
     }
-
 }

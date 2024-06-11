@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Profiling;
-using WMS.BusinessLogicLayer;
+using WMS.Application;
+using WMS.Infrastructure;
 using WMS.UI.Forms;
 
 namespace WMS.UI
@@ -17,10 +18,10 @@ namespace WMS.UI
             var services = ConfigureServices;
             var serviceProvider = services.BuildServiceProvider();
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(serviceProvider.GetRequiredService<Form_Main>());
+            System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.Run(serviceProvider.GetRequiredService<FormMain>());
         }
 
         private static IServiceCollection ConfigureServices
@@ -29,9 +30,10 @@ namespace WMS.UI
             {
                 var services = new ServiceCollection();
 
-                services.BusinessLogicConfigure();
+                services.AddBusinessLogic();
+                services.AddInfrastructure();
 
-                services.AddTransient<Form_Main>();
+                services.AddTransient<FormMain>();
 
                 return services;
             }

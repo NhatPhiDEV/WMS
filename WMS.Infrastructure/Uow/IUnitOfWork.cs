@@ -9,6 +9,7 @@ namespace WMS.Infrastructure.Uow
 
         int Commit();
 
-        Task<int> CommitAsync();    
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
     }
 }

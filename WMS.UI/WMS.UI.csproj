@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WMS.BusinessLogicLayer\WMS.BusinessLogic.csproj" />
+		<ProjectReference Include="..\WMS.BusinessLogicLayer\WMS.Application.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

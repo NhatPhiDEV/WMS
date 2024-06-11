@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "w4ulOCMhWiLjaeDa3H3SUjoFehlLH8aJgsSmGYuwpOaY+yK+NDT0Nzx81wVe2cQfPhOKVizuW8TpfjOxPREvAg==",
+  "dgSpecHash": "RAwQDBkfCoz0TN0mHQQQyKOTqSDj/nHtp2d2sKIjQxFNz73vFbrq9ijC3Gu+JMsLTituJTEg73jnNgeyvkT3Sw==",
   "success": true,
-  "projectFilePath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj",
+  "projectFilePath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\mediatr\\12.3.0\\mediatr.12.3.0.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.5\\microsoft.data.sqlclient.5.1.5.nupkg.sha512",

@@ -4,12 +4,12 @@
     "D:\\Work\\WMS\\WMS.UI\\WMS.UI.csproj": {}
   },
   "projects": {
-    "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj": {
+    "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj",
-        "projectName": "WMS.BusinessLogic",
-        "projectPath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj",
+        "projectUniqueName": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj",
+        "projectName": "WMS.Application",
+        "projectPath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
         "outputPath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\obj\\",
         "projectStyle": "PackageReference",
@@ -56,6 +56,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -263,8 +269,8 @@
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj": {
-                "projectPath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.BusinessLogic.csproj"
+              "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj": {
+                "projectPath": "D:\\Work\\WMS\\WMS.BusinessLogicLayer\\WMS.Application.csproj"
               }
             }
           }
