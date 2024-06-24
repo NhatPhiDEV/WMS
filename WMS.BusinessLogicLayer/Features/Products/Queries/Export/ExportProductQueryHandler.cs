@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using WMS.Infrastructure.Excel;
 
-namespace WMS.Application.Features.Products.Queries.Export
+namespace WMS.Application.Features.Products.Queries.Export;
+
+internal sealed class ExportProductQueryHandler(IExcelService excelService) : IRequestHandler<ExportProductQuery>
 {
-    internal sealed class ExportProductQueryHandler(IExcel excel) : IRequestHandler<ExportProductQuery>
+    public async Task Handle(ExportProductQuery request, CancellationToken cancellationToken)
     {
-        public async Task Handle(ExportProductQuery request, CancellationToken cancellationToken)
-        {
-            await excel.ExportAsync(request.FilePath, request.Data);
-        }
+        await excelService.Export(request.TableData, request.FilePath, request.HeaderText);
     }
 }

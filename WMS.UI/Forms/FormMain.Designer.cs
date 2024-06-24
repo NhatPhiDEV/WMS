@@ -33,9 +33,8 @@
             IconTabs = new ImageList(components);
             TabDashboard = new TabPage();
             TabControlMain = new MaterialSkin.Controls.MaterialTabControl();
-            TabLocation = new TabPage();
-            TabNotification = new TabPage();
-            TabSetting = new TabPage();
+            TabLocationManagement = new TabPage();
+            TabProductManagement = new TabPage();
             TabControlMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,6 +47,7 @@
             IconTabs.Images.SetKeyName(1, "notification-32.png");
             IconTabs.Images.SetKeyName(2, "icons8-pallet-32.png");
             IconTabs.Images.SetKeyName(3, "settings-32.png");
+            IconTabs.Images.SetKeyName(4, "product-32.png");
             // 
             // TabDashboard
             // 
@@ -63,9 +63,8 @@
             // TabControlMain
             // 
             TabControlMain.Controls.Add(TabDashboard);
-            TabControlMain.Controls.Add(TabLocation);
-            TabControlMain.Controls.Add(TabNotification);
-            TabControlMain.Controls.Add(TabSetting);
+            TabControlMain.Controls.Add(TabLocationManagement);
+            TabControlMain.Controls.Add(TabProductManagement);
             TabControlMain.Depth = 0;
             TabControlMain.Dock = DockStyle.Fill;
             TabControlMain.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -80,38 +79,26 @@
             TabControlMain.TabIndex = 0;
             TabControlMain.SelectedIndexChanged += TabControlMain_SelectedIndexChanged;
             // 
-            // TabLocation
+            // TabLocationManagement
             // 
-            TabLocation.ImageKey = "icons8-pallet-32.png";
-            TabLocation.Location = new Point(4, 31);
-            TabLocation.Name = "TabLocation";
-            TabLocation.Padding = new Padding(3);
-            TabLocation.Size = new Size(1439, 785);
-            TabLocation.TabIndex = 2;
-            TabLocation.Text = "Sơ đồ kho";
-            TabLocation.UseVisualStyleBackColor = true;
+            TabLocationManagement.ImageKey = "icons8-pallet-32.png";
+            TabLocationManagement.Location = new Point(4, 31);
+            TabLocationManagement.Name = "TabLocationManagement";
+            TabLocationManagement.Padding = new Padding(3);
+            TabLocationManagement.Size = new Size(1439, 785);
+            TabLocationManagement.TabIndex = 2;
+            TabLocationManagement.Text = "Sơ đồ kho";
+            TabLocationManagement.UseVisualStyleBackColor = true;
             // 
-            // TabNotification
+            // TabProductManagement
             // 
-            TabNotification.ImageKey = "notification-32.png";
-            TabNotification.Location = new Point(4, 31);
-            TabNotification.Name = "TabNotification";
-            TabNotification.Padding = new Padding(3);
-            TabNotification.Size = new Size(1439, 785);
-            TabNotification.TabIndex = 1;
-            TabNotification.Text = "Thông báo";
-            TabNotification.UseVisualStyleBackColor = true;
-            // 
-            // TabSetting
-            // 
-            TabSetting.ImageKey = "settings-32.png";
-            TabSetting.Location = new Point(4, 31);
-            TabSetting.Name = "TabSetting";
-            TabSetting.Padding = new Padding(3);
-            TabSetting.Size = new Size(1439, 785);
-            TabSetting.TabIndex = 3;
-            TabSetting.Text = "Cấu hình";
-            TabSetting.UseVisualStyleBackColor = true;
+            TabProductManagement.ImageKey = "product-32.png";
+            TabProductManagement.Location = new Point(4, 31);
+            TabProductManagement.Name = "TabProductManagement";
+            TabProductManagement.Size = new Size(1439, 785);
+            TabProductManagement.TabIndex = 4;
+            TabProductManagement.Text = "Sản phẩm";
+            TabProductManagement.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -136,8 +123,7 @@
         private ImageList IconTabs;
         private TabPage TabDashboard;
         private MaterialSkin.Controls.MaterialTabControl TabControlMain;
-        private TabPage TabNotification;
-        private TabPage TabLocation;
-        private TabPage TabSetting;
+        private TabPage TabLocationManagement;
+        private TabPage TabProductManagement;
     }
 }

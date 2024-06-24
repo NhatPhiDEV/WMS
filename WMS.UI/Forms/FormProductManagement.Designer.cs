@@ -56,7 +56,6 @@
             BtnNext = new FontAwesome.Sharp.IconButton();
             panel1 = new Panel();
             label1 = new Label();
-            BtnImportExcel = new FontAwesome.Sharp.IconButton();
             BtnCloseForm = new FontAwesome.Sharp.IconButton();
             BtnExportExcel = new FontAwesome.Sharp.IconButton();
             BtnRefresh = new FontAwesome.Sharp.IconButton();
@@ -179,11 +178,11 @@
             GvProducts.AllowUserToAddRows = false;
             GvProducts.BackgroundColor = SystemColors.Control;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.BackColor = SystemColors.InactiveCaption;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.InactiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             GvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             GvProducts.ColumnHeadersHeight = 35;
@@ -192,8 +191,8 @@
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = Color.RoyalBlue;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.WindowText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             GvProducts.DefaultCellStyle = dataGridViewCellStyle2;
             GvProducts.Dock = DockStyle.Fill;
@@ -249,6 +248,7 @@
             // 
             ProductId.HeaderText = "Id Sản Phẩm";
             ProductId.Name = "ProductId";
+            ProductId.Visible = false;
             // 
             // UpdateProduct
             // 
@@ -346,7 +346,6 @@
             // panel1
             // 
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(BtnImportExcel);
             panel1.Controls.Add(BtnCloseForm);
             panel1.Controls.Add(BtnExportExcel);
             panel1.Controls.Add(BtnRefresh);
@@ -354,7 +353,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(150, 287);
+            panel1.Size = new Size(150, 235);
             panel1.TabIndex = 1;
             // 
             // label1
@@ -367,24 +366,6 @@
             label1.TabIndex = 6;
             label1.Text = "Hành động";
             // 
-            // BtnImportExcel
-            // 
-            BtnImportExcel.Font = new Font("Segoe UI", 9.75F);
-            BtnImportExcel.IconChar = FontAwesome.Sharp.IconChar.ArrowRightToFile;
-            BtnImportExcel.IconColor = Color.SlateGray;
-            BtnImportExcel.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            BtnImportExcel.IconSize = 24;
-            BtnImportExcel.ImageAlign = ContentAlignment.MiddleLeft;
-            BtnImportExcel.Location = new Point(16, 91);
-            BtnImportExcel.Name = "BtnImportExcel";
-            BtnImportExcel.Size = new Size(120, 40);
-            BtnImportExcel.TabIndex = 5;
-            BtnImportExcel.Text = "Nhập Excel";
-            BtnImportExcel.TextAlign = ContentAlignment.MiddleLeft;
-            BtnImportExcel.TextImageRelation = TextImageRelation.ImageBeforeText;
-            BtnImportExcel.UseVisualStyleBackColor = true;
-            BtnImportExcel.Click += BtnImportExcel_Click;
-            // 
             // BtnCloseForm
             // 
             BtnCloseForm.Font = new Font("Segoe UI", 9.75F);
@@ -393,7 +374,7 @@
             BtnCloseForm.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BtnCloseForm.IconSize = 24;
             BtnCloseForm.ImageAlign = ContentAlignment.MiddleLeft;
-            BtnCloseForm.Location = new Point(16, 225);
+            BtnCloseForm.Location = new Point(16, 183);
             BtnCloseForm.Name = "BtnCloseForm";
             BtnCloseForm.Size = new Size(120, 40);
             BtnCloseForm.TabIndex = 4;
@@ -411,7 +392,7 @@
             BtnExportExcel.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BtnExportExcel.IconSize = 24;
             BtnExportExcel.ImageAlign = ContentAlignment.MiddleLeft;
-            BtnExportExcel.Location = new Point(16, 133);
+            BtnExportExcel.Location = new Point(16, 91);
             BtnExportExcel.Name = "BtnExportExcel";
             BtnExportExcel.Size = new Size(120, 40);
             BtnExportExcel.TabIndex = 3;
@@ -429,7 +410,7 @@
             BtnRefresh.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BtnRefresh.IconSize = 24;
             BtnRefresh.ImageAlign = ContentAlignment.MiddleLeft;
-            BtnRefresh.Location = new Point(16, 179);
+            BtnRefresh.Location = new Point(16, 137);
             BtnRefresh.Name = "BtnRefresh";
             BtnRefresh.Size = new Size(120, 40);
             BtnRefresh.TabIndex = 2;
@@ -516,7 +497,6 @@
         private FontAwesome.Sharp.IconButton BtnRefresh;
         private FontAwesome.Sharp.IconButton BtnExportExcel;
         private FontAwesome.Sharp.IconButton BtnCloseForm;
-        private FontAwesome.Sharp.IconButton BtnImportExcel;
         private Label label1;
         private Panel panel3;
         private MaterialSkin.Controls.MaterialCard CardTop;

@@ -88,9 +88,11 @@
             btnUploadFile.Text = "Chọn ảnh";
             btnUploadFile.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnUploadFile.UseVisualStyleBackColor = true;
+            btnUploadFile.Click += btnUploadFile_Click;
             // 
             // pbProductImage
             // 
+            pbProductImage.BackgroundImageLayout = ImageLayout.Stretch;
             pbProductImage.BorderStyle = BorderStyle.FixedSingle;
             pbProductImage.Location = new Point(8, 7);
             pbProductImage.Name = "pbProductImage";

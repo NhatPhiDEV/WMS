@@ -21,7 +21,6 @@ namespace WMS.UI.Forms
         public delegate void AddOrUpdateProductEventHandler(Product? product);
         public event AddOrUpdateProductEventHandler? AddOrUpdateProductEvent;
 
-
         public FormProductManagement(IMediator mediator)
         {
             _mediator = mediator;
@@ -79,7 +78,9 @@ namespace WMS.UI.Forms
                 categoryColumn.DisplayMember = "Val";
             }
 
-            GvProducts.Rows.Clear();
+            GvProducts.DataSource = null;  // Unbind
+            //GvProducts.Rows.Clear();
+
             var query = new GetProductsQuery(searchTerm, page, pageSize);
             var products = await _mediator.Send(query);
             TbPageSearch.Text = products.Page.ToString();
@@ -112,7 +113,7 @@ namespace WMS.UI.Forms
 
         private async Task BindProductsWithFilters(bool hasPrev = false, bool hasNext = false)
         {
-            var search = string.IsNullOrEmpty(TbSearch.Text?.Trim()) ? "" : TbPageSearch.Text;
+            var search = string.IsNullOrEmpty(TbSearch.Text.Trim()) ? "" : TbSearch.Text;
             var pageSearch = TbPageSearch.Text;
             if (string.IsNullOrEmpty(pageSearch)) return;
 
@@ -175,21 +176,44 @@ namespace WMS.UI.Forms
 
         private async void BtnExportExcel_Click(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = @"Excel Workbook|*.xlsx",
-                Title = @"Lưu file Excel",
-                FileName = "Product.xlsx"
-            };
+            var tableData = ConvertDataGridViewToTableData(GvProducts,
+                [
+                    nameof(EGvProducts.ProductId),
+                    nameof(EGvProducts.UpdateProduct), 
+                    nameof(EGvProducts.RemoveProduct)
+                ]);
 
-            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
-            var filePath = saveFileDialog.FileName;
-            var gridData = GvProducts.DataSource;
-            var command = new ExportProductQuery(filePath, gridData);
-            await _mediator.Send(command);
+            using var sfd = new SaveFileDialog();
+            sfd.Filter = @"Excel Workbook|*.xlsx";
+            sfd.ValidateNames = true;
 
-            MessageBox.Show(@"File đã được lưu thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            var query = new ExportProductQuery(tableData, sfd.FileName, "Danh sách sản phẩm");
+            await _mediator.Send(query);
+            MessageBox.Show(@"File đã được lưu thành công.", @"Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private TableData ConvertDataGridViewToTableData(DataGridView dataGridView, List<string> columnsToHide)
+        {
+            var filteredColumns = dataGridView.Columns.Cast<DataGridViewColumn>()
+                .Where(col => !columnsToHide.Contains(col.Name))
+                .ToList();
+
+            var headers = filteredColumns.Select(col => col.HeaderText).ToArray();
+
+            var rows = new string[dataGridView.Rows.Count][];
+
+            for (var i = 0; i < dataGridView.Rows.Count; i++)
+            {
+                rows[i] = filteredColumns
+                    .Select(col => dataGridView.Rows[i].Cells[col.Index].Value?.ToString() ?? string.Empty)
+                    .ToArray();
+            }
+
+            return new TableData { Headers = headers, Rows = rows };
+        }
+
 
         private async void BtnRefresh_Click(object sender, EventArgs e)
         {
@@ -227,7 +251,7 @@ namespace WMS.UI.Forms
 
         private async Task UpdateProductHandle(DataGridViewCellEventArgs e)
         {
-            if (ValidateDeleteRow(e, out var sku, out var productId)) return;
+            if (!ValidateRow(e, out _, out var productId)) return;
 
             var query = new GetProductByIdQuery(productId);
             var product = await _mediator.Send(query);
@@ -243,7 +267,7 @@ namespace WMS.UI.Forms
 
         private async Task RemoveProductHandle(DataGridViewCellEventArgs e)
         {
-            if (ValidateDeleteRow(e, out var sku, out var productId)) return;
+            if (!ValidateRow(e, out var sku, out var productId)) return;
 
             if (ConfirmDeleteRow(sku)) return;
 
@@ -274,7 +298,7 @@ namespace WMS.UI.Forms
             return dialogResult != DialogResult.OK;
         }
 
-        private bool ValidateDeleteRow(DataGridViewCellEventArgs e, out string? sku, out int productId)
+        private bool ValidateRow(DataGridViewCellEventArgs e, out string? sku, out int productId)
         {
             var row = GvProducts.Rows[e.RowIndex];
             var cellProductIdValue = row.Cells[nameof(EGvProducts.ProductId)]?.Value?.ToString();
@@ -282,15 +306,14 @@ namespace WMS.UI.Forms
 
             int.TryParse(cellProductIdValue, out productId);
 
-            if (productId != 0 && sku is not null) return false;
+            if (productId != 0 && sku is not null) return true;
 
             MessageBox.Show(
                 TextMessage.Product.InvalidInput,
                 CaptionMessage.System.Warning,
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Warning);
-            return true;
-
+            return false;
         }
 
         private void GvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

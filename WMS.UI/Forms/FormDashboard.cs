@@ -1,6 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Threading;
+using MaterialSkin.Controls;
 using MediatR;
 using S7.Net;
 using WMS.Application.Common;
@@ -110,7 +112,7 @@ namespace WMS.UI.Forms
                         dialogMessage.Append(TextMessage.Product.Create);
 
                         // Show dialog create product
-                        var dialogResult = MessageBox.Show(
+                        var dialogResult =MaterialMessageBox.Show(
                             dialogMessage.ToString(),
                             CaptionMessage.System.Notification,
                             MessageBoxButtons.OKCancel,
@@ -128,7 +130,7 @@ namespace WMS.UI.Forms
                     }
                 case (int)EInventoryTransactionTypes.Out:
 
-                    MessageBox.Show(
+                   MaterialMessageBox.Show(
                         TextMessage.Product.NotFound,
                         CaptionMessage.System.Notification,
                         MessageBoxButtons.OK,
@@ -415,14 +417,24 @@ namespace WMS.UI.Forms
         private static Color GetColorLocation(Location location)
         {
             var limitQuantity = 5;
-            if (location.Inventories.Sum(i => i.Quantity) == location.Capacity)
+            int inventoryQuantity = location.Inventories.Sum(i => i.Quantity);
+
+            if (inventoryQuantity == location.Capacity)
             {
-                return Color.OrangeRed;
+                return Color.Red;
             }
 
-            return location.Capacity - location.Inventories.Sum(i => i.Quantity) < limitQuantity
-                ? Color.YellowGreen
-                : Color.LightBlue;
+            if (inventoryQuantity > 0 && location.Capacity - inventoryQuantity > limitQuantity)
+            {
+                return Color.LightBlue;
+            }
+
+            if (location.Capacity - inventoryQuantity < limitQuantity)
+            {
+                return Color.Yellow;
+            }
+
+            return Color.Green;
         }
 
         private async void FromDashboard_Load(object sender, EventArgs e)
@@ -513,7 +525,7 @@ namespace WMS.UI.Forms
 
             if (!isValid)
             {
-                MessageBox.Show(errorMessage,
+               MaterialMessageBox.Show(errorMessage,
                     CaptionMessage.System.Notification,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -639,6 +651,17 @@ namespace WMS.UI.Forms
 
         private void BtnDeleteSelected_Click(object sender, EventArgs e)
         {
+            var checkedRows = GetCheckedRows();
+            if (checkedRows.Count < 1) return;
+
+            var dialogResult = MaterialMessageBox.Show(
+                TextMessage.ConfirmDeleteProcess,
+                CaptionMessage.System.Notification,
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning);
+
+            if (dialogResult != DialogResult.OK) return;
+
             for (var i = DgvProcess.Rows.Count - 1; i >= 0; i--)
             {
                 var row = DgvProcess.Rows[i];
@@ -648,11 +671,33 @@ namespace WMS.UI.Forms
                     DgvProcess.Rows.RemoveAt(i);
                 }
             }
+
+            MaterialMessageBox.Show(
+                TextMessage.DeleteProcessSuccessfully,
+                CaptionMessage.System.Notification,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private void BtnDeleteAll_Click(object sender, EventArgs e)
         {
+            if (DgvProcess.Rows.Count < 1) return;
+
+            var dialogResult = MaterialMessageBox.Show(
+                TextMessage.ConfirmDeleteAllProcess,
+                CaptionMessage.System.Notification,
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning);
+
+            if (dialogResult != DialogResult.OK) return;
+
             DgvProcess.Rows.Clear();
+
+            MaterialMessageBox.Show(
+                TextMessage.DeleteProcessSuccessfully,
+                CaptionMessage.System.Notification,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
         private CancellationTokenSource? _cancellationTokenSource;
 
@@ -663,8 +708,8 @@ namespace WMS.UI.Forms
             var selectedRow = GetCheckedRows();
 
             if (selectedRow.Count == 0) return;
-
-            var dialogResult = MessageBox.Show(
+            
+            var dialogResult =MaterialMessageBox.Show(
                 TextMessage.ExecuteSelected,
                 CaptionMessage.System.Notification,
                 MessageBoxButtons.OKCancel,
@@ -680,7 +725,7 @@ namespace WMS.UI.Forms
         {
             if (DgvProcess.Rows.Count == 0) return;
 
-            var dialogResult = MessageBox.Show(
+            var dialogResult =MaterialMessageBox.Show(
                 TextMessage.ExecuteAll,
                 CaptionMessage.System.Notification,
                 MessageBoxButtons.OKCancel,
@@ -700,7 +745,7 @@ namespace WMS.UI.Forms
 
             await Task.Delay(2000);
 
-            MessageBox.Show(TextMessage.CancelExecutedSuccessfully,
+           MaterialMessageBox.Show(TextMessage.CancelExecutedSuccessfully,
                 CaptionMessage.System.Notification,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -761,7 +806,7 @@ namespace WMS.UI.Forms
                 var isValidSku = await ValidateSkuFromPlc(sku, cancellationToken);
                 if (!isValidSku)
                 {
-                    MessageBox.Show(TextMessage.Product.SkuNotMatch,
+                   MaterialMessageBox.Show(TextMessage.Product.SkuNotMatch,
                         CaptionMessage.System.Notification,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -795,7 +840,7 @@ namespace WMS.UI.Forms
             BtnExecuteAll.Enabled = true;
             BtnExecuteSelected.Enabled = true;
 
-            MessageBox.Show(TextMessage.ExecutedSuccessfully(count),
+           MaterialMessageBox.Show(TextMessage.ExecutedSuccessfully(count),
                 CaptionMessage.System.Notification,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -837,7 +882,7 @@ namespace WMS.UI.Forms
                     break;
             }
 
-            MessageBox.Show(TextMessage.GetStatusFromPlcUnsuccessfully,
+           MaterialMessageBox.Show(TextMessage.GetStatusFromPlcUnsuccessfully,
                 CaptionMessage.System.Notification,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);

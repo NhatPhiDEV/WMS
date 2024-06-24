@@ -10,4 +10,9 @@ public static class TimeHelper
 
         return localTime;
     }
+
+    public static string ToFormat(this DateTime value, string format = "dd/MM/yyyy")
+    {
+        return value.ToString(format);
+    }
 }

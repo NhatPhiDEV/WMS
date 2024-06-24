@@ -98,7 +98,7 @@ namespace WMS.UI.Forms
 
                 ProductModified?.Invoke(this, EventArgs.Empty);
 
-                Close();
+                Hide();
 
                 return;
             }
@@ -168,7 +168,7 @@ namespace WMS.UI.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
         }
 
         private bool IsValidInventoryTransactionType()
@@ -179,6 +179,21 @@ namespace WMS.UI.Forms
         private bool TryParseProductCategory(out int productCategoryId)
         {
             return int.TryParse(cbProductCategory.SelectedValue?.ToString(), out productCategoryId);
+        }
+
+        private void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            using var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = @"Image Files (*.png;*.jpg)|*.png;*.jpg";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            var filePath = openFileDialog.FileName;
+
+            // Hiển thị ảnh lên PictureBox
+            pbProductImage.ImageLocation = filePath;
         }
     }
 }

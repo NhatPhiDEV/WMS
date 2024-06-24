@@ -2,21 +2,27 @@
 using MaterialSkin.Controls;
 using MediatR;
 using WMS.Domain.Enums;
+using static WMS.UI.Common.Messages.TextMessage;
 
 namespace WMS.UI.Forms
 {
     public partial class FormMain : MaterialForm
     {
         private readonly IMediator _mediator;
-        private FormDashboard? _formDashboard;
-        private FormProductManagement? _formProductManagement;
+
+        public enum TabName
+        {
+            TabDashboard,
+            TabLocationManagement,
+            TabProductManagement
+        }
 
         public FormMain(IMediator mediator)
         {
             _mediator = mediator;
             InitializeComponent();
             InitMaterialSkin();
-            LoadTabDashboard();
+            LoadFormDashboard();
         }
 
         private void InitMaterialSkin()
@@ -42,45 +48,51 @@ namespace WMS.UI.Forms
             var selectedTabName = tabControl.SelectedTab.Name;
             switch (selectedTabName)
             {
-                case nameof(ETabControls.TabDashboard):
-                    LoadTabDashboard();
+                case nameof(TabName.TabDashboard):
+                    LoadFormDashboard();
                     break;
-                case nameof(ETabControls.TabLocation):
-                    LoadTabLocation();
+                case nameof(TabName.TabLocationManagement):
+                    LoadFormLocationManagement();
+                    break;
+                case nameof(TabName.TabProductManagement):
+                    LoadFormProductManagement();
                     break;
             }
         }
 
-        private static void LoadTab<T>(TabPage tabPage, ref T? formToLoad, IMediator mediator) where T : Form
+        private void LoadFormLocationManagement()
+        {
+            var form = new FormLocationManagement(_mediator);
+            LoadTab(TabLocationManagement, ref form);
+        }
+
+        private void LoadFormDashboard()
+        {
+            var form = new FormDashboard(_mediator);
+            LoadTab(TabDashboard, ref form);
+        }
+
+        private void LoadFormProductManagement()
+        {
+            var form = new FormProductManagement(_mediator);
+            LoadTab(TabProductManagement, ref form);
+        }
+
+        private static void LoadTab<T>(TabPage tabPage, ref T form) where T : Form
         {
             if (tabPage.Controls.Count > 0)
             {
                 tabPage.Controls.Clear();
             }
 
-            formToLoad = (T)Activator.CreateInstance(typeof(T), mediator)!;
+            form.Dock = DockStyle.Fill;
+            form.TopLevel = false;
+            form.Width = tabPage.Width;
+            form.Height = tabPage.Height;
 
-            formToLoad.Dock = DockStyle.Fill;
-            formToLoad.TopLevel = false;
-            formToLoad.FormBorderStyle = FormBorderStyle.None;
-            formToLoad.Width = tabPage.Width;
-            formToLoad.Height = tabPage.Height;
-
-            formToLoad.BringToFront();
-            tabPage.Controls.Add(formToLoad);
-            formToLoad.Show();
-        }
-
-
-
-        private void LoadTabLocation()
-        {
-            LoadTab(TabLocation, ref _formProductManagement, _mediator);
-        }
-
-        private void LoadTabDashboard()
-        {
-            LoadTab(TabDashboard, ref _formDashboard, _mediator);
+            form.BringToFront();
+            tabPage.Controls.Add(form);
+            form.Show();
         }
     }
 }

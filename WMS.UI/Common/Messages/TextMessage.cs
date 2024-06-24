@@ -4,12 +4,16 @@ namespace WMS.UI.Common.Messages
 {
     public struct TextMessage
     {
-        public struct FormDashboard
+        public struct  FormDashboard
         {
-            public const string ExecuteSelected = "Bạn có chắc chắn muốn thực thi các tác vụ đã chọn?";
-            public const string ExecuteAll = "Bạn có chắc chắn muốn thực thi tất cả tác vụ?";
-            public const string CancelExecutedSuccessfully = "Dừng tác vụ thành công!";
+            public const string ExecuteSelected = "Bạn có chắc chắn muốn thực thi các tiến trình đã chọn?";
+            public const string ExecuteAll = "Bạn có chắc chắn muốn thực thi tất cả tiến trình?";
+            public const string CancelExecutedSuccessfully = "Dừng tiến trình thành công!";
             public const string GetStatusFromPlcUnsuccessfully = "Không thể lấy được kết quả xử lý từ PLC!";
+            public const string ConfirmDeleteAllProcess = "Bạn có chắc chắn muốn khởi tạo lại danh sách tiến trình?";
+            public const string ConfirmDeleteProcess = "Bạn có chắc chắn muốn loại bỏ các tiến trình đã chọn?";
+            public const string DeleteProcessSuccessfully = "Tiến trình đã bị loại bỏ!";
+
             public static string ProcessName(string transactionType, string sku)
             {
                 var sb = new StringBuilder();
@@ -50,6 +54,24 @@ namespace WMS.UI.Common.Messages
         public struct FormProductManagement
         {
             public struct Product
+            {
+                public const string InvalidInput = "Vui lòng chọn dòng cần xóa!";
+                public static string ConfirmDeleteAction(string? sku)
+                {
+                    var sb = new StringBuilder();
+                    sb.Append("Bạn có chắc chắn muốn xóa mã hàng ");
+                    sb.Append(sku);
+                    sb.Append(" này không?");
+                    return sb.ToString();
+                }
+            }
+            public const string DeleteSuccessfully = "Xóa dữ liệu thành công!";
+
+        }
+
+        public struct FormLocationManagement
+        {
+            public struct Location
             {
                 public const string InvalidInput = "Vui lòng chọn dòng cần xóa!";
                 public static string ConfirmDeleteAction(string? sku)

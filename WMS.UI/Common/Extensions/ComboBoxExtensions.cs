@@ -13,8 +13,5 @@ internal static class ComboBoxExtensions
         comboBox.DataSource = dataSource;
         comboBox.ValueMember = valueMember;
         comboBox.DisplayMember = displayMember;
-        // AutoComplete
-        comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-        comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
     }
 }

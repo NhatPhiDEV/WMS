@@ -13,17 +13,19 @@ namespace WMS.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(AppConfig.Database.GetConnectionString()));
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(AppConfig.Database.GetConnectionString()));
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<DbContextFactory>();
 
             services.AddScoped<IS7PlcClient, S7PlcClient>(provider => new S7PlcClient(AppConfig.Plc.IpAddress,
                 CpuType.S71200,
                 AppConfig.Plc.Rack,
                 AppConfig.Plc.Slot));
 
-            services.AddScoped<IExcel, ExcelHandler>();
+            services.AddScoped<IExcelService, ExcelService>();
 
 
             return services;

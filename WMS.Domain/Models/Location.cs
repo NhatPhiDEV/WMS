@@ -36,5 +36,5 @@ public class Location
     public virtual ICollection<Inventory> Inventories { get; set; } = [];
     public virtual ICollection<InventoryTransaction> InventoryTransactions { get; set; } = [];
 
-    public virtual Zone? Zone { get; set; }
+    public virtual Zone Zone { get; set; } = null!;
 }

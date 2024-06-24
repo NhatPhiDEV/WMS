@@ -5,13 +5,13 @@ using WMS.Infrastructure.Uow;
 
 namespace WMS.Application.Features.Locations.Queries.GetById;
 
-internal sealed class GetLocationByQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetLocationByIdQuery, Location?>
+internal sealed class GetLocationByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetLocationByIdQuery, Location?>
 {
-    private readonly IGenericRepository<Location> LocationRepostory = unitOfWork.GetRepository<Location>();
+    private readonly IGenericRepository<Location> _locationRepository = unitOfWork.GetRepository<Location>();
 
     public async Task<Location?> Handle(GetLocationByIdQuery request, CancellationToken cancellationToken)
     {
-        return await LocationRepostory.GetSingle(
+        return await _locationRepository.GetSingle(
             loc => new Location
             {
                 LocationId = loc.LocationId,
@@ -22,7 +22,6 @@ internal sealed class GetLocationByQueryHandler(IUnitOfWork unitOfWork) : IReque
                 Inventories = loc.Inventories,
                 LocationCode = loc.LocationCode,
                 LocationName = loc.LocationName
-            }, loc => loc.LocationId == request.LocationId
-        );
+            }, loc => loc.LocationId == request.LocationId, cancellationToken);
     }
 }
